@@ -115,8 +115,17 @@ const ColeccionNumi = () => {
         }
 
         // validacion avanzada - no pueden existir piesas con el mismo nombre y año
+        // .some() busca si existe el item con el mismo nombre y año ingresado
+        const isExists = items.some(item => 
+            item.nombrePieza.toLowerCase() === nombrePieza.toLowerCase() && 
+            item.anioEmision === anioEmision
+        );
 
-        
+        if (isExists) {
+            alert("ERROR.. Ya existe una pieza con el mismo nombre y año");
+            return;
+        };
+
         // ---------------------------
 
         // Crear objeto del item para registrar
