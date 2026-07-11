@@ -214,18 +214,22 @@ const ColeccionNumi = () => {
         // formatear la busqueda (lower)
         const searchItem = search.toLocaleLowerCase().trim();
 
-        // convertir elemento en Number
-        const itemSearch = Number(searchItem);
+        const nombreMatch = item.nombrePieza.toLocaleLowerCase().includes(searchItem);
+        const paisMatch = item.paisOrigen.toLocaleLowerCase().includes(searchItem);
 
+        return nombreMatch || paisMatch;
 
-        if (!isNaN(itemSearch)){
-            // en caso de que sea un numero, se busca el año
-            // toString() se usa para evitar la comparacion con .includes()
-            return item.anioEmision.toString().includes(searchItem);
-        }else{
-            // caso contrario, se busca por el nombre formateado en lower
-            return item.nombrePieza.toLocaleLowerCase().includes(searchItem);
-        }
+        // // convertir elemento en Number
+        // const itemSearch = Number(searchItem);
+
+        // if (!isNaN(itemSearch)){
+        //     // en caso de que sea un numero, se busca el año
+        //     // toString() se usa para evitar la comparacion con .includes()
+        //     return item.anioEmision.toString().includes(searchItem);
+        // }else{
+        //     // caso contrario, se busca por el nombre formateado en lower
+        //     return item.nombrePieza.toLocaleLowerCase().includes(searchItem);
+        // }
     });
 
     // -----------------------------------------------------------------------

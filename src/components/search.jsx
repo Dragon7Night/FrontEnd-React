@@ -12,7 +12,7 @@ const Search = ({ setSearch, setPageNumber }) => {
                     }}
                     type="text"
                     className="form-control"
-                    placeholder="Buscar por nombre o año..."
+                    placeholder="Buscar por nombre o país..."
                 />
                 
                 <button type="submit" className="btn btn-primary px-4 fw-bold">

@@ -39,15 +39,15 @@ const ColeccionItem = ({ item, onEditar, onEliminar }) => {
               </div>
 
               <div className="col-6">
-                <strong>Origen:</strong> {paisOrigen}
+                <strong>País de origen:</strong> {paisOrigen}
               </div>
 
               <div className="col-6">
-                <strong>Año:</strong> {anioEmision}
+                <strong>Año de emisión:</strong> {anioEmision}
               </div>
 
               <div className="col-6">
-                <strong>Conservación:</strong> {estadoConservacion}
+                <strong>Estado de conservación:</strong> {estadoConservacion}
               </div>
             </div>
 
