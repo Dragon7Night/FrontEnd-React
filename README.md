@@ -55,8 +55,13 @@ El núcleo del proyecto utiliza las siguientes dependencias locales:
    ```bash
    npm install uuid4
    ```
+8. **Instalar paginador de react**
 
-8. **Iniciar el servidor de desarrollo**
+   ```bash
+   npm install react-paginate
+   ```
+
+9. **Iniciar el servidor de desarrollo**
 
    ```bash
    npm run dev

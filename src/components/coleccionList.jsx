@@ -5,9 +5,27 @@ import uuid4 from "uuid4";
 
 import ColeccionItem from "./coleccionItem.jsx";
 
+import Pagination from './pagination.jsx';
+
+import Search from './search.jsx';
+
 const ColeccionNumi = () => {
+
+    let [pageNumber, setPageNumber] = useState(1);
+
+    let [search, setSearch] = useState("");
     
-    // valor actual, funcion modificada
+    // -----------------------------------------------------------------------
+
+    // TAG identificadora
+    /*
+        Permite identificar los datos que estan dentro del localStorage, ya que al 
+        momento de crear un nuevo item se le asigna esta TAG (segundo bloque de 
+        useEffect), es mas facil identificar y traer los datos despues con el primero 
+        bloque de useEffect 
+    */
+    const TAG = 'coleccionTag'
+
     /* 
     items =  se usa cuando se manejan array de datos,
              al principio se le dice, crea un array vacio.
@@ -15,8 +33,23 @@ const ColeccionNumi = () => {
     setItems =  se usa para hacer el CRUD en los items,
                 se llama cada vez que se hace una de estas operaciones.
     */
-    const [items, setItems] = useState([]);
-    
+    const [items, setItems] = useState(() => {
+        // carga los datos del localStorage al iniciar
+        const registro = JSON.parse(localStorage.getItem(TAG));
+
+        // si hay datos, los devuelve, si no, devuelve un array vacio []
+        return registro ? registro : [];
+    });
+
+    // -----------------------------------------------------------------------
+
+    // guarda los datos en el localStorage cuando se modifican los datos (items)
+    useEffect(() => {
+        localStorage.setItem(TAG, JSON.stringify(items));
+    }, [items]);
+
+    // -----------------------------------------------------------------------
+
     // campos (refs del form)
     /*
         El uso de useRef, permite hacer referencias mas rapidas en el codigo (jsx) 
@@ -35,32 +68,6 @@ const ColeccionNumi = () => {
     
     // Estado: Malo, Regular, Bueno o Excelente
     const estadoConservacionRef = useRef();
-
-    // -----------------------------------------------------------------------
-
-    // TAG identificadora
-    /*
-        Permite identificar los datos que estan dentro del localStorage, ya que al 
-        momento de crear un nuevo item se le asigna esta TAG (segundo bloque de 
-        useEffect), es mas facil identificar y traer los datos despues con el primero 
-        bloque de useEffect 
-    */
-    const TAG = 'coleccionTag'
-    
-    // carga los datos guardados en el localStorage al iniciar la pagina
-    useEffect(() => {
-        const registro = JSON.parse(localStorage.getItem(TAG));
-        if (registro){
-            setItems(registro)
-        }
-    }, []);
-
-    // -----------------------------------------------------------------------
-
-    // guarda los datos en el localStorage cuando se modifican los datos (items)
-    useEffect(() => {
-        localStorage.setItem(TAG, JSON.stringify(items));
-    }, [items]);
 
     // -----------------------------------------------------------------------
 
@@ -197,6 +204,47 @@ const ColeccionNumi = () => {
         })); // cierre de setItems
     }; // cierre de editarItem
 
+    // -----------------------------------------------------------------------
+
+    const itemsFiltrados = items.filter((item) => {
+
+        // si no hay nada, devuelve todo
+        if (search === "") return true;
+
+        // formatear la busqueda (lower)
+        const searchItem = search.toLocaleLowerCase().trim();
+
+        // convertir elemento en Number
+        const itemSearch = Number(searchItem);
+
+
+        if (!isNaN(itemSearch)){
+            // en caso de que sea un numero, se busca el año
+            // toString() se usa para evitar la comparacion con .includes()
+            return item.anioEmision.toString().includes(searchItem);
+        }else{
+            // caso contrario, se busca por el nombre formateado en lower
+            return item.nombrePieza.toLocaleLowerCase().includes(searchItem);
+        }
+    });
+
+    // -----------------------------------------------------------------------
+    
+    // Paginador
+
+    const itemsPage = 5;
+
+    // calcular limites
+    const ultimoItem = pageNumber * itemsPage;
+    const primerItem = ultimoItem - itemsPage;
+
+    // recortar la lista filtrada
+    const itemSlice = itemsFiltrados.slice(primerItem, ultimoItem);
+
+    const totalPages = Math.ceil(itemsFiltrados.length / itemsPage);
+    
+    // -----------------------------------------------------------------------
+    
     return (
         <Fragment>
 
@@ -266,18 +314,26 @@ const ColeccionNumi = () => {
                 </div>
 
                 {/* Botón de registrar */}
-                <button className="btn btn-success w-100 mt-2 fw-semibold" onClick={agregarItem} type="button">
-                    <i className="bi bi-plus-circle-fill me-2"></i>Agregar a la Colección
+                <button className="btn btn-primary w-100 mt-2 fw-bold" onClick={agregarItem} type="button">
+                    Registrar a la colección
                 </button>
             </div>
-            
+
             {/* Listado de Piezas */}
-            <h5 className="mb-3">Colección de registrada</h5>
+            <h4 className="mb-3 fw-semibold">Colección de piezas</h4>
+            
+            {/* buscador */}
+            <div>
+                <Search setSearch={setSearch} setPageNumber={setPageNumber}/>
+            </div>
+
+            {/* lista de items (MAX.5) */}
             <ul className="list-group">
-                {items.length === 0 ? (
-                    <li className="list-group-item text-center text-muted">No hay piezas registradas aún.</li>
+                {itemSlice.length === 0 ? (
+                    <li className="list-group-item text-center">No hay piezas registradas aún.
+                    </li>
                 ) : (
-                    items.map((item) => (
+                    itemSlice.map((item) => (
                         <ColeccionItem
                             key={item.id}
                             item={item}
@@ -287,6 +343,12 @@ const ColeccionNumi = () => {
                     ))
                 )}
             </ul>
+
+            {/* paginador */}
+            <div>
+                <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalPages={totalPages}/>
+            </div>
+
         </div>
     </Fragment>
     );
