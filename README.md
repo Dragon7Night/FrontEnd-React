@@ -1,16 +1,63 @@
-# React + Vite
+# 🪙 Catálogo Numismático | Registro de Monedas y Billetes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Librerías principales
+El núcleo del proyecto utiliza las siguientes dependencias locales:
+* `react` & `react-dom` (Librería base de la interfaz)
+* `bootstrap` (Framework de diseño responsivo)
+* `bootstrap-icons` (Paquete oficial de iconos visuales)
+* `uuid4` (Generador de identificadores únicos para el inventario)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Pasos para la Instalación
 
-## React Compiler
+1. **Ubicarse en la terminal en la ruta de su preferencia.**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+   > **Sugerencia:** para crear los directorios (opcional).
+   ```bash
+   cd C:/
+   mkdir ProyectosGit
+   cd ProyectosGit
+   ```
 
-## Expanding the ESLint configuration
+2. **Clonación del repositorio.**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+   ```bash
+   git clone https://github.com/Dragon7Night/FrontEnd-React.git
+   ```
+
+3. **Acceder a la carpeta del proyecto.**
+
+   ```bash
+   cd FrontEnd-React
+   ```
+
+4. **Instalar dependencias base de React**
+
+   ```bash
+   npm install
+   ```
+
+5. **Instalar Bootstrap y sus iconos**
+
+   ```bash
+   npm i bootstrap@5.3.3
+   ```
+
+6. **Instalar Bootstrap y sus iconos**
+
+   ```bash
+   npm i bootstrap-icons
+   ```
+
+7. **Instalar el generador de IDs únicos**
+
+   ```bash
+   npm install uuid4
+   ```
+
+8. **Iniciar el servidor de desarrollo**
+
+   ```bash
+   npm run dev
+   ```
